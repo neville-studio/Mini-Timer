@@ -1,0 +1,28 @@
+{
+    "name": "迷你时钟",
+    "description": "小巧的时钟工具，能够帮助你完成页面计时、闹钟和小型秒表等简易活动。",
+    "version": "0.0.3",
+    "manifest_version": 3,
+    "action": 
+    {
+        "default_icon":"Timer.png",
+        "default_popup":"main.html"
+    },
+    "icons":
+    {
+        "256":"Timer.png"
+    },
+    "background": {
+        "service_worker": "Service/service.js"
+    },
+    "permissions":
+    [
+        "alarms",
+        "notifications",
+        "storage",
+        "background",
+        "contextMenus"
+    ],
+    "default_locale":"zh_CN"
+    
+}

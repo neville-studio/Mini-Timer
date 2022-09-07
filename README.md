@@ -6,7 +6,7 @@ This extension can also be run on Google Chrome. Because of some problem, I will
 # Develop Progress
 The Version 0.0.4 will be aviliable in seven days in Microsoft Edge, you can run it with these code in develop mode.
 
-P.S. My English isn't very will, so there might be some Grammar or spelling errors, here are the Chinese original version.
+***P.S. My English isn't very will, so there might be some Grammar or spelling errors, here are the Chinese original version.***
 
 
 # 迷你时钟插件

@@ -206,12 +206,9 @@ chrome.runtime.sendMessage({"type":"getTimer"},function (response){
             {
                 allElements[i].removeAttribute("hidden");
             }
-            allElements = document.getElementsByClassName("numpad")
-            for(let i = 0;i<allElements.length;i++)
-            {
-                allElements[i].innerHTML="00";
-            }
-            
+            document.getElementById("countdownHours").innerHTML="00";
+            document.getElementById("countdownMins").innerHTML="00";
+            document.getElementById("countdownSeconds").innerHTML="00";         
             document.getElementById("start").style.display="inline-block";
             document.getElementById('startPotatoClock').style.display="inline-block";
             clearInterval(coutdowntimer);

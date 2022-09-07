@@ -1,7 +1,7 @@
 {
-    "name": "迷你时钟",
-    "description": "小巧的时钟工具，能够帮助你完成页面计时、闹钟和小型秒表等简易活动。",
-    "version": "0.0.3",
+    "name": "__MSG_name__",
+    "description": "__MSG_pluginDesc__",
+    "version": "0.0.4",
     "manifest_version": 3,
     "action": 
     {

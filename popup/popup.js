@@ -12,37 +12,35 @@ load();
  */
 document.getElementById("alarm").addEventListener("click",function()
     {
-        this.setAttribute("class","selected");
-        document.getElementById("countdown").setAttribute("class","unselected");
-        document.getElementById("timer").setAttribute("class","unselected");
-        document.getElementById("countDowniFrame").setAttribute("hidden","hidden");
-        document.getElementById("alarmiFrame").removeAttribute("hidden");
-        document.getElementById("timeriFrame").setAttribute("hidden","hidden");
-        chrome.storage.local.set({"default_tab":document.getElementsByClassName("selected")[0].getAttribute("id")});
+        
+        chrome.storage.local.set({"default_tab":"alarm"},()=>{
+            if(!chrome.runtime.lastError)  
+                window.location.replace("alarm.html");
+        });
     }
 );
 document.getElementById("countdown").addEventListener("click",function()
     {
-        this.setAttribute("class","selected");
-        document.getElementById("alarm").setAttribute("class","unselected");
-        document.getElementById("timer").setAttribute("class","unselected");
-        document.getElementById("countDowniFrame").removeAttribute("hidden");
-        document.getElementById("alarmiFrame").setAttribute("hidden","hidden");
-        document.getElementById("timeriFrame").setAttribute("hidden","hidden");
-        chrome.storage.local.set({"default_tab":document.getElementsByClassName("selected")[0].getAttribute("id")});
+        chrome.storage.local.set({"default_tab":"countdown"},()=>{
+            if(!chrome.runtime.lastError)  
+                {window.location.replace("main.html");
+            console.log("successed.");}
+                
+        });
     }
 );
 document.getElementById("timer").addEventListener("click",function()
 {
-    this.setAttribute("class","selected");
-    document.getElementById("alarm").setAttribute("class","unselected");
-    document.getElementById("countdown").setAttribute("class","unselected");
-    document.getElementById("countDowniFrame").setAttribute("hidden","hidden");
-    document.getElementById("alarmiFrame").setAttribute("hidden","hidden");
-    document.getElementById("timeriFrame").removeAttribute("hidden");
-    chrome.storage.local.set({"default_tab":document.getElementsByClassName("selected")[0].getAttribute("id")});
+    chrome.storage.local.set({"default_tab":"timer"},()=>{
+        if(!chrome.runtime.lastError)  
+            window.location.replace("timer.html");
+    });
 }
 )
+
+
+
+
 
 /**
  * Countdown iFrame  UI改变代码
@@ -239,9 +237,7 @@ function judgeTimerIsEnd(end)
 function load(){
     chrome.runtime.sendMessage({"type":"wakeup"},function (response){
             if(response.wakeup=="wakeup")wakeup=1;
-            
             chrome.runtime.sendMessage({"type":"getTimer"},function (response){
-        
                 if(response.timerstatus!=1)
                     document.getElementById("continue").style.display="none";
                 if(response.timerstatus!=-1)
@@ -277,83 +273,14 @@ function load(){
                     
                 }
             });
-            chrome.runtime.sendMessage({"type":"getAlarms"},function (response){
-                if(response.alarmstatus!=1)
-                {
-                    let hours = new Date().getHours();
-                    let min = new Date().getMinutes();
-                    document.getElementById('alarmHours').innerHTML=pluszero(hours);
-                    document.getElementById('alarmMins').innerHTML=pluszero(min);
-                    document.getElementById("stopAlarm").style.display="none";
-                }
-                else
-                {
-                    let allElements = document.getElementsByClassName("upAlarms");
-                    for(let i = 0;i<allElements.length;i++)
-                    {
-                        allElements[i].setAttribute("hidden","hidden");
-                    }
-                    allElements = document.getElementsByClassName("downAlarms");
-                    for(let i = 0;i<allElements.length;i++)
-                    {
-                        allElements[i].setAttribute("hidden","hidden");
-                    }
-                    let hours = response.hours;
-                    let mins = response.mins;
-                    let alarmTitle = response.title;
-                    document.getElementById('alarmHours').innerHTML=pluszero(hours);
-                    document.getElementById('alarmMins').innerHTML=pluszero(mins);
-                    document.getElementById('alarmName').innerHTML=alarmTitle;
-                    document.getElementById("startAlarm").style.display="none";
-                }
-                alarmtimer = setInterval(function() {alarmTimer();},100);
-            });
-        chrome.runtime.sendMessage({"type":"get_timer"},function (response){
-            
-            if(response.status!=-1)
-            {
-                document.getElementById("timerTimes").innerHTML=""+response.Str;
-                timerStatustimer = setInterval(function() {timerTimer();},10);
-            }
-            if(response.status==1)
-            {
-                
-                document.getElementById('startTimer').style.display="none";
-                document.getElementById('pauseTimer').style.display="inline-block";
-                document.getElementById('continueTimer').style.display="none";
-                document.getElementById("stopTimer").style.display="inline-block";
-                document.getElementById("clearTimer").style.display="none";
-            }
-            else if(response.status==0)
-            {
-                
-                document.getElementById('startTimer').style.display="none";
-                document.getElementById('pauseTimer').style.display="none";
-                document.getElementById('continueTimer').style.display="inline-block";
-                document.getElementById("stopTimer").style.display="inline-block";
-                document.getElementById("clearTimer").style.display="none";
-            }
-            else if(response.status==-1)
-            {
-                document.getElementById('startTimer').style.display="inline-block";
-                document.getElementById('pauseTimer').style.display="none";
-                document.getElementById('continueTimer').style.display="none";
-                document.getElementById("stopTimer").style.display="none";
-            }
         });
-    });
     chrome.storage.local.get("default_tab",function (data){
-        if(data.default_tab==undefined)return;
-        document.getElementsByClassName("selected")[0].setAttribute("class","unselected");
-        document.getElementById(data.default_tab).setAttribute("class","selected");
-        document.getElementById("countDowniFrame").setAttribute("hidden","hidden");
-        if(data.default_tab=="countdown")
-        document.getElementById("countDowniFrame").removeAttribute("hidden");
-        if(data.default_tab=="alarm")
-        document.getElementById("alarmiFrame").removeAttribute("hidden");
-        if(data.default_tab=="timer")
-        document.getElementById("timeriFrame").removeAttribute("hidden");
+        if(data.default_tab==undefined && window.location.pathname!="/main.html")window.location.replace("main.html");
+        if(data.default_tab=="countdown" && window.location.pathname!="/main.html")window.location.replace("main.html");
+        if(data.default_tab=="alarm" && window.location.pathname!="/alarm.html")window.location.replace("alarm.html");
+        if(data.default_tab=="timer" && window.location.pathname!="/timer.html")window.location.replace("timer.html");
     });
+    showNow();
     setInterval(()=>{showNow();},100)
 }
 //暂停键事件
@@ -397,173 +324,9 @@ document.getElementById("stop").addEventListener("click",function()
             document.getElementById('countdownName').setAttribute("contenteditable","true");
 });
 
-
-//
-document.getElementById("plusAlarmHour").addEventListener("click",function()
-{
-    let obj=document.getElementById('alarmHours');
-    if(parseInt(obj.innerHTML)>=23)
-    {
-        obj.innerHTML="00";
-    }else{
-        obj.innerHTML=pluszero(parseInt(obj.innerHTML)+1);
-    }
-    
-});
-document.getElementById("plusAlarmMin").addEventListener("click",function()
-{
-    let obj='alarmMins';
-    plusnumber(obj)
-});
-document.getElementById("minusAlarmHour").addEventListener("click",function()
-{
-    let obj=document.getElementById('alarmHours');
-    if(parseInt(obj.innerHTML)<=0)
-    {
-        obj.innerHTML="23";
-    }else{
-        obj.innerHTML=pluszero(parseInt(obj.innerHTML)-1);
-    }    
-});
-document.getElementById("minusAlarmMin").addEventListener("click",function()
-{
-    let obj='alarmMins';
-    minusnumber(obj)
-});
-document.getElementById("startAlarm").addEventListener("click",function ()
-{
-    let min,sec,hour;
-    hour=parseInt(document.getElementById("alarmHours").innerHTML);
-    min=parseInt(document.getElementById("alarmMins").innerHTML);
-    let allElements = document.getElementsByClassName("upAlarms");
-    for(let i = 0;i<allElements.length;i++)
-    {
-        allElements[i].setAttribute("hidden","hidden");
-    }
-    allElements = document.getElementsByClassName("downAlarms");
-    for(let i = 0;i<allElements.length;i++)
-    {
-        allElements[i].setAttribute("hidden","hidden");
-    }
-    var caption = document.getElementById('alarmName').innerText;
-    chrome.runtime.sendMessage({
-        "type":"startAlarm",
-        "hour":hour,
-        "min":min,
-        "title":caption
-    });
-    document.getElementById("startAlarm").style.display="none";
-    document.getElementById('stopAlarm').style.display="inline-block";
-    document.getElementById("alarmName").removeAttribute("contenteditable");
-    alarmtimer = setInterval(function() {alarmTimer();},100);
-}
-
-)
-document.getElementById("stopAlarm").addEventListener("click",function ()
-{
-    chrome.runtime.sendMessage({
-        "type":"stopAlarm"
-    });
-}
-
-)
-function alarmTimer()
-{
-    chrome.runtime.sendMessage({"type":"wakeup"},function (response){
-        if(response.wakeup=="wakeup")wakeup=1;else wakeup=0;
-        chrome.runtime.sendMessage({"type":"getAlarms"},function (response){
-            
-        if(response.alarmstatus!=1)
-        {
-            let allElements = document.getElementsByClassName("upAlarms");
-            for(let i = 0;i<allElements.length;i++)
-            {
-                allElements[i].removeAttribute("hidden");
-            }
-            allElements = document.getElementsByClassName("downAlarms");
-            for(let i = 0;i<allElements.length;i++)
-            {
-                allElements[i].removeAttribute("hidden");
-            }
-                document.getElementById('startAlarm').style.display="inline-block";
-                document.getElementById("stopAlarm").style.display="none";
-                document.getElementById("alarmName").setAttribute("contenteditable","true");
-        clearInterval(alarmtimer);
-        }
-        });
-    });
-}
-function timerTimer()
-{
-    chrome.runtime.sendMessage({"type":"wakeup"},function (response){
-        if(response.wakeup=="wakeup")wakeup=1;
-        chrome.runtime.sendMessage({"type":"get_timer"},function (response){
-        if(response.status!=-1)
-        {
-            document.getElementById("timerTimes").innerHTML=""+response.Str;
-        }
-        else{
-            clearInterval(timerStatustimer);
-        }
-        
-    });
-});
-}
-document.getElementById("startTimer").addEventListener("click",function()
-{
-    chrome.runtime.sendMessage({"type":"start_Timer"});
-    timerStatustimer = setInterval(function() {timerTimer();},10);
-    
-    document.getElementById('startTimer').style.display="none";
-    document.getElementById('pauseTimer').style.display="inline-block";
-    document.getElementById('continueTimer').style.display="none";
-    document.getElementById("stopTimer").style.display="inline-block";
-    document.getElementById("clearTimer").style.display="none";
-}
-);
-document.getElementById("pauseTimer").addEventListener("click",function()
-{
-    chrome.runtime.sendMessage({"type":"pause_Timer"});
-    document.getElementById('startTimer').style.display="none";
-    document.getElementById('pauseTimer').style.display="none";
-    document.getElementById('continueTimer').style.display="inline-block";
-    document.getElementById("stopTimer").style.display="inline-block";
-    document.getElementById("clearTimer").style.display="none";
-    
-}
-);
-document.getElementById("continueTimer").addEventListener("click",function()
-{
-    chrome.runtime.sendMessage({"type":"continue_Timer"});
-    document.getElementById('startTimer').style.display="none";
-    document.getElementById('pauseTimer').style.display="inline-block";
-    document.getElementById('continueTimer').style.display="none";
-    document.getElementById("stopTimer").style.display="inline-block";
-    document.getElementById("clearTimer").style.display="none";
-}
-);
-document.getElementById("stopTimer").addEventListener("click",function()
-{
-    chrome.runtime.sendMessage({"type":"stop_Timer"});
-    document.getElementById('startTimer').style.display="inline-block";
-    document.getElementById('pauseTimer').style.display="none";
-    document.getElementById('continueTimer').style.display="none";
-    document.getElementById("stopTimer").style.display="none";
-    document.getElementById("clearTimer").style.display="inline-block";
-    
-}
-);
-
-document.getElementById("clearTimer").addEventListener("click",function()
-{
-    document.getElementById("timerTimes").innerHTML="0:00:00.00";
-}
-);
+//show the time now(Widnows )
 function showNow()
 {
     let nowtime = new Date();
     document.getElementById("now").innerHTML=""+nowtime.getFullYear()+"/"+(nowtime.getMonth()+1)+"/"+nowtime.getDate()+" "+nowtime.getHours()+":"+pluszero(nowtime.getMinutes())+":"+pluszero(nowtime.getSeconds());
 }
-// document.getElementById("bigsrc").addEventListener("click",()=>{
-//     window.open("bigsrc.html")
-// })

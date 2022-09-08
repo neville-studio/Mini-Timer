@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta charset="utf-8">
+        <title>欢迎使用迷你时钟</title>
+        <link rel="stylesheet" href="main.css">
+        <link rel="icon" href="Timer.png" type="image">
+    </head>
+    <body>
+        <div class="title">
+            <ul>
+                <li class="unselected" id="countdown">定时</li>
+                <li class="unselected" id="alarm">闹钟</li>
+                <li class="selected" id="timer">码表</li>
+                <span>
+                    <li id="now"></li>
+                </span>
+            </ul>
+        </div>
+        <div id="timeriFrame">
+            <div class="timerTimes" id="timerTimes">
+                    0:00:00.00
+            </div>
+            <div class="startoption">
+                <div class="buttons" id="startTimer">开始</div>
+                <div class="buttons" id="pauseTimer">暂停</div>
+                <div class="buttons" id="continueTimer">继续</div>
+                <div class="buttons" id="stopTimer">停止</div>
+                <div class="buttons" id="clearTimer">重置</div>
+            </div>
+            
+        </div>
+        <script src="popup/timer.js"></script>
+    </body>
+</html>

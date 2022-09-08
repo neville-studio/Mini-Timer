@@ -14,7 +14,6 @@
                 <li class="unselected" id="timer">码表</li>
                 <span>
                     <li id="now"></li>
-                    <!-- <li id="bigsrc">↗</li> -->
                 </span>
             </ul>
         </div>
@@ -48,41 +47,6 @@
                 <div class="buttons" id="stop">停止</div>
                 
               </div>
-        </div>
-        <div id="alarmiFrame" hidden>
-            <div contenteditable class="clockTitles" id="alarmName">提醒一下</div>
-            <div class="setting">
-                    
-                <div class="num" id="hourAlarmGroup">
-                    <div class="up upAlarms" id="plusAlarmHour"><img src="up.png"></div>
-                    <div id="alarmHours" class="numpad">00</div>
-                    <div class="down downAlarms" id="minusAlarmHour"><img src="up.png"></div>
-                </div>
-                <div class="timedot">:</div>
-                <div class="num" id="minAlarmGroup">
-                    <div class="up upAlarms" id="plusAlarmMin"><img src="up.png"></div>
-                    <div id="alarmMins" class="numpad">00</div>
-                    <div class="down downAlarms" id="minusAlarmMin"><img src="up.png"></div>
-                </div>
-            </div>
-            <div class="startoption">
-                <div class="buttons" id="startAlarm">开启</div>
-                <div class="buttons" id="stopAlarm">关闭</div>
-            </div>
-            *闹钟仅进行一次。期间如果发生Edge异常退出或关闭的事件，闹钟可能会取消。
-        </div>
-        <div id="timeriFrame" hidden>
-            <div class="timerTimes" id="timerTimes">
-                    0:00:00.00
-            </div>
-            <div class="startoption">
-                <div class="buttons" id="startTimer">开始</div>
-                <div class="buttons" id="pauseTimer">暂停</div>
-                <div class="buttons" id="continueTimer">继续</div>
-                <div class="buttons" id="stopTimer">停止</div>
-                <div class="buttons" id="clearTimer">重置</div>
-            </div>
-            
         </div>
         <script src="popup/popup.js"></script>
     </body>

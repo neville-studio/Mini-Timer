@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta charset="utf-8">
+        <title>欢迎使用迷你时钟</title>
+        <link rel="stylesheet" href="main.css">
+        <link rel="icon" href="Timer.png" type="image">
+    </head>
+    <body>
+        <div class="title">
+            <ul>
+                <li class="unselected" id="countdown">定时</li>
+                <li class="selected" id="alarm">闹钟</li>
+                <li class="unselected" id="timer">码表</li>
+                <span>
+                    <li id="now"></li>
+                </span>
+            </ul>
+        </div>
+        <div id="alarmiFrame">
+            <div contenteditable class="clockTitles" id="alarmName">提醒一下</div>
+            <div class="setting">
+                    
+                <div class="num" id="hourAlarmGroup">
+                    <div class="up upAlarms" id="plusAlarmHour"><img src="up.png"></div>
+                    <div id="alarmHours" class="numpad">00</div>
+                    <div class="down downAlarms" id="minusAlarmHour"><img src="up.png"></div>
+                </div>
+                <div class="timedot">:</div>
+                <div class="num" id="minAlarmGroup">
+                    <div class="up upAlarms" id="plusAlarmMin"><img src="up.png"></div>
+                    <div id="alarmMins" class="numpad">00</div>
+                    <div class="down downAlarms" id="minusAlarmMin"><img src="up.png"></div>
+                </div>
+            </div>
+            <div class="startoption">
+                <div class="buttons" id="startAlarm">开启</div>
+                <div class="buttons" id="stopAlarm">关闭</div>
+            </div>
+            *闹钟仅进行一次。期间如果发生异常退出或关闭的事件，闹钟可能会取消。
+        </div>
+        <script src="popup/alarm.js"></script>
+    </body>
+</html>

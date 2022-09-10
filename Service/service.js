@@ -59,8 +59,7 @@ chrome.runtime.onMessage.addListener(data => {
         alarmstatus=0;
         chrome.storage.local.set({"alarmstatus":0});
         chrome.alarms.clear("alarms")
-    }
-    if (data.type == 'start_Timer') {
+    }else if (data.type == 'start_Timer') {
         //chrome.storage.local.set({"TimerendTime":data.endTime})
         starttime = Date.now();
         timer_status= 1;
@@ -81,6 +80,21 @@ chrome.runtime.onMessage.addListener(data => {
         timer_status=1;
         starttime = new Date().getTime()-starttime;
         chrome.storage.local.set({"starttime":starttime,"timer_status":timer_status});
+    }
+    else if(data.type=="showContextMenu")
+    {
+        chrome.contextMenus.create({
+            id: 'startCountdown',
+            title: "开始计时:"+data.str,
+            visible:true,
+            contexts:["selection"]
+            //contexts:["page"]
+            });
+        //chrome.contextMenus.update("startCountdown",{title:"开始计时："+data.str});
+        //chrome.contextMenus.update("startCountdown",{visible:true});
+    }    else if(data.type=="hideContextMenu")
+    {
+        chrome.contextMenus.remove("startCountdown");
     }
 });
 
@@ -258,8 +272,9 @@ chrome.alarms.onAlarm.addListener(function (alarmInfo)
         chrome.contextMenus.create({
         id: 'startCountdownPotato',
         title: "番茄钟",
-        contexts:["page"]
+        //contexts:["page"]
         });
+        
     });
     chrome.contextMenus.onClicked.addListener((info) => {
         if (info.menuItemId == "startCountdownPotato") {

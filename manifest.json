@@ -23,6 +23,15 @@
         "background",
         "contextMenus"
     ],
-    "default_locale":"zh_CN"
-    
+    "default_locale":"zh_CN",
+    "content_scripts": [
+        {
+            "matches": [
+            "http://*/*",
+            "https://*/*"
+        ],
+        "js": [
+            "popup/content_js.js"
+        ]
+    }]
 }

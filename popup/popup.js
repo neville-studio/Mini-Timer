@@ -330,3 +330,8 @@ function showNow()
     let nowtime = new Date();
     document.getElementById("now").innerHTML=""+nowtime.getFullYear()+"/"+(nowtime.getMonth()+1)+"/"+nowtime.getDate()+" "+nowtime.getHours()+":"+pluszero(nowtime.getMinutes())+":"+pluszero(nowtime.getSeconds());
 }
+if(window.navigator.language!='zh-CN')
+{
+    document.write(chrome.i18n.getMessage("unChinese"));
+
+}

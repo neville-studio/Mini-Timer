@@ -41,6 +41,7 @@ chrome.runtime.onMessage.addListener(data => {
         timerstatus=-1;
         chrome.alarms.clear("timer");
         chrome.contextMenus.update("startCountdownPotato",{"enabled":true});
+        chrome.contextMenus.update("startCountdown",{"enabled":true});
         chrome.storage.local.set({"endtime":endtime,"timertitle":timertitle,"timerstatus":timerstatus});
     }else if(data.type== 'startAlarm')
     {
@@ -83,18 +84,14 @@ chrome.runtime.onMessage.addListener(data => {
     }
     else if(data.type=="showContextMenu")
     {
-        chrome.contextMenus.create({
-            id: 'startCountdown',
-            title: "开始计时:"+data.str,
-            visible:true,
-            contexts:["selection"]
-            //contexts:["page"]
-            });
-        //chrome.contextMenus.update("startCountdown",{title:"开始计时："+data.str});
-        //chrome.contextMenus.update("startCountdown",{visible:true});
+        
+        chrome.contextMenus.update("startCountdown",{title:"开始计时："+data.str},()=>{
+            chrome.contextMenus.update("startCountdown",{visible:true});
+        });
+        
     }    else if(data.type=="hideContextMenu")
     {
-        chrome.contextMenus.remove("startCountdown");
+        chrome.contextMenus.update("startCountdown",{"visible":false});
     }
 });
 
@@ -234,6 +231,7 @@ chrome.alarms.onAlarm.addListener(function (alarmInfo)
                 timerstatus= -1;
                 chrome.storage.local.set({"timerstatus":timerstatus});
                 chrome.contextMenus.update("startCountdownPotato",{"enabled":true});
+                chrome.contextMenus.update("startCountdown",{"enabled":true});
                 chrome.notifications.create('', {
                     type: 'basic',
                     title: '倒计时:到时间啦!',
@@ -274,6 +272,13 @@ chrome.alarms.onAlarm.addListener(function (alarmInfo)
         title: "番茄钟",
         //contexts:["page"]
         });
+        chrome.contextMenus.create({
+            id: 'startCountdown',
+            title: "开始计时:",
+            visible:false,
+            contexts:["selection"]
+            //contexts:["page"]
+            });
         
     });
     chrome.contextMenus.onClicked.addListener((info) => {
@@ -285,13 +290,36 @@ chrome.alarms.onAlarm.addListener(function (alarmInfo)
             chrome.alarms.create("timer",{
             when:endtime
         });
-        var views = chrome.extension.getViews({type:'popup'});
-        if(views.length > 0) {
-            views[0].startCountdownPotato();
-        }
+        // var views = chrome.extension.getViews({type:'popup'});
+        // if(views.length > 0) {
+        //     views[0].startCountdownPotato();
+        // }
         chrome.contextMenus.update("startCountdownPotato",{"enabled":false});
-        }
+        chrome.contextMenus.update("startCountdown",{"enabled":false});    
+    }
+        if (info.menuItemId == "startCountdown") {
+            //endtime = new Date().getTime()+25*60000;
+            timertitle = "计时";
+            timerstatus= 0;
+            let selected = new String(info.selectionText);
+            console.log(selected);
+            let matchString = selected.match("\\d* *分钟");
+            if(matchString!=null&&matchString.length>0)
+                endtime = Date.now()+parseInt(selected.match("\\d*"))*60000;
+            chrome.storage.local.set({"endtime":endtime,"timertitle":timertitle,"timerstatus":timerstatus});
+            chrome.alarms.create("timer",{
+            when:endtime
         });
+        // var views = chrome.extension.getViews({type:'popup'});
+        // if(views.length > 0) {
+        //     views[0].startCountdownPotato();
+        // }
+        chrome.contextMenus.update("startCountdownPotato",{"enabled":false});
+        chrome.contextMenus.update("startCountdown",{"enabled":false});
+        }
+        
+    });
+
 
 
 

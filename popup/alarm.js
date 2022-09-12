@@ -10,15 +10,7 @@ load();
  * Title栏变化控件
  * 页面切换准则。
  */
-document.getElementById("alarm").addEventListener("click",function()
-    {
-        
-        chrome.storage.local.set({"default_tab":"alarm"},()=>{
-            if(!chrome.runtime.lastError)  
-                window.location.replace("alarm.html");
-        });
-    }
-);
+
 document.getElementById("countdown").addEventListener("click",function()
     {
         chrome.storage.local.set({"default_tab":"countdown"},()=>{

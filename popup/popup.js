@@ -19,16 +19,6 @@ document.getElementById("alarm").addEventListener("click",function()
         });
     }
 );
-document.getElementById("countdown").addEventListener("click",function()
-    {
-        chrome.storage.local.set({"default_tab":"countdown"},()=>{
-            if(!chrome.runtime.lastError)  
-                {window.location.replace("main.html");
-            console.log("successed.");}
-                
-        });
-    }
-);
 document.getElementById("timer").addEventListener("click",function()
 {
     chrome.storage.local.set({"default_tab":"timer"},()=>{

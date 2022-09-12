@@ -35,14 +35,6 @@ document.getElementById("countdown").addEventListener("click",function()
         });
     }
 );
-document.getElementById("timer").addEventListener("click",function()
-{
-    chrome.storage.local.set({"default_tab":"timer"},()=>{
-        if(!chrome.runtime.lastError)  
-            window.location.replace("timer.html");
-    });
-}
-)
 //页面加载
 function load(){
     chrome.runtime.sendMessage({"type":"wakeup"},function (response){

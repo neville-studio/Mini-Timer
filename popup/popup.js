@@ -78,6 +78,7 @@ function plusnumber (obj)
     }else{
         changeObj.innerHTML=pluszero(parseInt(changeObj.innerHTML)+1);
     }}else{
+        if(parseInt(changeObj.innerHTML)<=99)
         changeObj.innerHTML=pluszero(parseInt(changeObj.innerHTML)+1);
     }
 }
@@ -139,8 +140,8 @@ document.getElementById("start").addEventListener("click",function()
     coutdowntimer = setInterval(function() {timer();},100);
 });
 //来一个番茄钟
-document.addEventListener('contextmenu',
-event => event.preventDefault());
+// document.addEventListener('contextmenu',
+// event => event.preventDefault());
 document.getElementById("startPotatoClock").addEventListener("click",function()
 {
     potatoClock();
@@ -325,3 +326,15 @@ if(window.navigator.language!='zh-CN')
     document.write(chrome.i18n.getMessage("unChinese"));
 
 }
+let focusnumber = 0;
+document.getElementById("countdownHours").addEventListener("blur",(event)=>
+{
+    var str = new String(document.getElementById("countdownHours").innerText);
+    
+    if(str.match(/^\d{1,2}$/)==null)document.getElementById("countdownHours").innerText=""+focusnumber;
+
+})
+document.getElementById("countdownHours").addEventListener("focus",(event)=>
+{
+    focusnumber=parseInt(new String(document.getElementById("countdownHours").innerText));
+})

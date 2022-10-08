@@ -331,10 +331,54 @@ document.getElementById("countdownHours").addEventListener("blur",(event)=>
 {
     var str = new String(document.getElementById("countdownHours").innerText);
     
-    if(str.match(/^\d{1,2}$/)==null)document.getElementById("countdownHours").innerText=""+focusnumber;
+    if(str.match(/^\d{1,2}$/)==null)document.getElementById("countdownHours").innerText=""+pluszero(focusnumber);
 
 })
 document.getElementById("countdownHours").addEventListener("focus",(event)=>
 {
     focusnumber=parseInt(new String(document.getElementById("countdownHours").innerText));
+})
+document.getElementById("countdownMins").addEventListener("blur",(event)=>
+{
+    var str = new String(document.getElementById("countdownMins").innerText);
+    
+    if(str.match(/^\d{1,2}$/)==null)
+    {
+        document.getElementById("countdownMins").innerText=""+pluszero(focusnumber);
+        return;
+    }else if(parseInt(str)>59)
+    {
+        document.getElementById("countdownMins").innerText=59;
+    }else if(parseInt(str)<0)
+    {
+        document.getElementById("countdownMins").innerText=00;
+    }
+    
+
+})
+document.getElementById("countdownMins").addEventListener("focus",(event)=>
+{
+    focusnumber=parseInt(new String(document.getElementById("countdownMins").innerText));
+})
+document.getElementById("countdownSeconds").addEventListener("blur",(event)=>
+{
+    var str = new String(document.getElementById("countdownSeconds").innerText);
+    
+    if(str.match(/^\d{1,2}$/)==null)
+    {
+        document.getElementById("countdownSeconds").innerText=""+pluszero(focusnumber);
+        return;
+    }else if(parseInt(str)>59)
+    {
+        document.getElementById("countdownSeconds").innerText=59;
+    }else if(parseInt(str)<0)
+    {
+        document.getElementById("countdownSeconds").innerText=00;
+    }
+    
+
+})
+document.getElementById("countdownSeconds").addEventListener("focus",(event)=>
+{
+    focusnumber=parseInt(new String(document.getElementById("countdownSeconds").innerText));
 })

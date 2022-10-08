@@ -242,3 +242,47 @@ function showNow()
 }
 document.addEventListener('contextmenu',
 event => event.preventDefault());
+document.getElementById("alarmMins").addEventListener("blur",(event)=>
+{
+    var str = new String(document.getElementById("alarmMins").innerText);
+    
+    if(str.match(/^\d{1,2}$/)==null)
+    {
+        document.getElementById("alarmMins").innerText=""+pluszero(focusnumber);
+        return;
+    }else if(parseInt(str)>59)
+    {
+        document.getElementById("alarmMins").innerText=59;
+    }else if(parseInt(str)<0)
+    {
+        document.getElementById("alarmMins").innerText=00;
+    }
+    
+
+})
+document.getElementById("alarmMins").addEventListener("focus",(event)=>
+{
+    focusnumber=parseInt(new String(document.getElementById("alarmMins").innerText));
+})
+document.getElementById("alarmHours").addEventListener("blur",(event)=>
+{
+    var str = new String(document.getElementById("alarmHours").innerText);
+    
+    if(str.match(/^\d{1,2}$/)==null)
+    {
+        document.getElementById("alarmHours").innerText=""+pluszero(focusnumber);
+        return;
+    }else if(parseInt(str)>23)
+    {
+        document.getElementById("alarmHours").innerText=23;
+    }else if(parseInt(str)<0)
+    {
+        document.getElementById("alarmHours").innerText=00;
+    }
+    
+
+})
+document.getElementById("alarmHours").addEventListener("focus",(event)=>
+{
+    focusnumber=parseInt(new String(document.getElementById("alarmHours").innerText));
+})

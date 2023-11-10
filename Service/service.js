@@ -16,6 +16,7 @@ chrome.runtime.onMessage.addListener(data => {
         chrome.storage.local.set({"endtime":endtime,"timertitle":timertitle,"timerstatus":timerstatus});
         chrome.contextMenus.update("startCountdownPotato",{"enabled":false});
         chrome.contextMenus.update("startCountdown",{"enabled":false});
+        chrome.contextMenus.update("startCountdownH",{"enabled":false});
         chrome.alarms.create("timer",{
             when:endtime
         });
@@ -26,6 +27,7 @@ chrome.runtime.onMessage.addListener(data => {
         endtime = endtime - new Date().getTime();
         chrome.contextMenus.update("startCountdownPotato",{"enabled":false});
         chrome.contextMenus.update("startCountdown",{"enabled":false});
+        chrome.contextMenus.update("startCountdownH",{"enabled":false});
         chrome.storage.local.set({"endtime":endtime,"timertitle":timertitle,"timerstatus":timerstatus});
     }else if(data.type== 'continueTimer')
     {
@@ -36,6 +38,7 @@ chrome.runtime.onMessage.addListener(data => {
         });
         chrome.contextMenus.update("startCountdownPotato",{"enabled":false});
         chrome.contextMenus.update("startCountdown",{"enabled":false});
+        chrome.contextMenus.update("startCountdownH",{"enabled":false});
         chrome.storage.local.set({"endtime":endtime,"timertitle":timertitle,"timerstatus":timerstatus});
      }
      else if(data.type== 'stopTimer')
@@ -45,6 +48,7 @@ chrome.runtime.onMessage.addListener(data => {
         chrome.alarms.clear("timer");
         chrome.contextMenus.update("startCountdownPotato",{"enabled":true});
         chrome.contextMenus.update("startCountdown",{"enabled":true});
+        chrome.contextMenus.update("startCountdownH",{"enabled":true});
         chrome.storage.local.set({"endtime":endtime,"timertitle":timertitle,"timerstatus":timerstatus});
     }else if(data.type== 'startAlarm')
     {
@@ -87,14 +91,26 @@ chrome.runtime.onMessage.addListener(data => {
     }
     else if(data.type=="showContextMenu")
     {
-        
         chrome.contextMenus.update("startCountdown",{title:"（预览版）开始计时："+data.str},()=>{
             chrome.contextMenus.update("startCountdown",{visible:true});
+            chrome.contextMenus.update("startCountdownH",{visible:false});
         });
         
-    }    else if(data.type=="hideContextMenu")
+    } else if(data.type=="showContextMenu_Hour")
+    {
+        chrome.contextMenus.update("startCountdownH",{title:"（预览版）开始计时："+data.str},()=>{
+            chrome.contextMenus.update("startCountdownH",{visible:true});
+            chrome.contextMenus.update("startCountdown",{visible:false});
+        });
+        
+    }
+    else if(data.type=="hideContextMenu")
     {
         chrome.contextMenus.update("startCountdown",{"visible":false});
+    }
+    else if(data.type=="hideContextMenu_Hour")
+    {
+        chrome.contextMenus.update("startCountdownH",{"visible":false});
     }
 });
 
@@ -279,8 +295,13 @@ chrome.alarms.onAlarm.addListener(function (alarmInfo)
             title: "开始计时:",
             visible:false,
             contexts:["selection"]
+        });
+        chrome.contextMenus.create({
+            id: 'startCountdownH',
+            title: "开始计时:",
+            visible:false,
+            contexts:["selection"]
             });
-        
     });
     chrome.contextMenus.onClicked.addListener((info) => {
         if (info.menuItemId == "startCountdownPotato") {
@@ -292,7 +313,8 @@ chrome.alarms.onAlarm.addListener(function (alarmInfo)
             when:endtime
         });
         chrome.contextMenus.update("startCountdownPotato",{"enabled":false});
-        chrome.contextMenus.update("startCountdown",{"enabled":false});    
+        chrome.contextMenus.update("startCountdown",{"enabled":false});
+        chrome.contextMenus.update("startCountdownH",{"enabled":false});    
     }
         if (info.menuItemId == "startCountdown") {
             timertitle = "计时";
@@ -304,10 +326,26 @@ chrome.alarms.onAlarm.addListener(function (alarmInfo)
                 endtime = Date.now()+parseInt(selected.match("\\d* *分钟").pop().match("\\d*"))*60000;
             chrome.storage.local.set({"endtime":endtime,"timertitle":timertitle,"timerstatus":timerstatus});
             chrome.alarms.create("timer",{
-            when:endtime
-        });
+                when:endtime
+            });
         chrome.contextMenus.update("startCountdownPotato",{"enabled":false});
         chrome.contextMenus.update("startCountdown",{"enabled":false});
+        chrome.contextMenus.update("startCountdownH",{"enabled":false});    
+        }else if (info.menuItemId == "startCountdownH") {
+            timertitle = "计时";
+            timerstatus= 0;
+            let selected = new String(info.selectionText);
+            console.log(selected);
+            let matchString = selected.match("\\d* *小时");
+            if(matchString!=null&&matchString.length>0)
+                endtime = Date.now()+parseInt(selected.match("\\d* *小时").pop().match("\\d*"))*3600000;
+            chrome.storage.local.set({"endtime":endtime,"timertitle":timertitle,"timerstatus":timerstatus});
+            chrome.alarms.create("timer",{
+                when:endtime
+            });
+        chrome.contextMenus.update("startCountdownPotato",{"enabled":false});
+        chrome.contextMenus.update("startCountdown",{"enabled":false});
+        chrome.contextMenus.update("startCountdownH",{"enabled":false});    
         }
         
     });

@@ -10,5 +10,17 @@
     "unChinese":
     {
         "message":""
+    },
+    "stopWatch":
+    {
+        "message":"码表"
+    },
+    "alarm":
+    {
+        "message":"闹钟"
+    },
+    "timer":
+    {
+        "message":"计时"
     }
 }

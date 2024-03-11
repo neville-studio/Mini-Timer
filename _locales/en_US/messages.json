@@ -10,5 +10,17 @@
     "unChinese":
     {
         "message":"I'm Sorry, because of some translation, grammar, user interface errors and so on. the English version of this extension is not available, we will prepare it ready at the later version of this extension."
+    },
+    "stopWatch":
+    {
+        "message":"Stopwatch"
+    },
+    "alarm":
+    {
+        "message":"Alarm"
+    },
+    "timer":
+    {
+        "message":"Timer"
     }
 }

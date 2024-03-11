@@ -226,6 +226,9 @@ function judgeTimerIsEnd(end)
 }
 //页面加载
 function load(){
+    document.getElementById('countdown').innerText = chrome.i18n.getMessage("timer");
+    document.getElementById('alarm').innerText = chrome.i18n.getMessage("alarm");
+    document.getElementById('timer').innerText = chrome.i18n.getMessage("stopWatch");
     chrome.runtime.sendMessage({"type":"wakeup"},function (response){
             if(response.wakeup=="wakeup")wakeup=1;
             chrome.runtime.sendMessage({"type":"getTimer"},function (response){
@@ -321,6 +324,7 @@ function showNow()
     let nowtime = new Date();
     document.getElementById("now").innerHTML=""+nowtime.getFullYear()+"/"+(nowtime.getMonth()+1)+"/"+nowtime.getDate()+" "+nowtime.getHours()+":"+pluszero(nowtime.getMinutes())+":"+pluszero(nowtime.getSeconds());
 }
+
 if(window.navigator.language!='zh-CN')
 {
     document.write(chrome.i18n.getMessage("unChinese"));
@@ -351,7 +355,7 @@ document.getElementById("countdownMins").addEventListener("blur",(event)=>
         document.getElementById("countdownMins").innerText=59;
     }else if(parseInt(str)<0)
     {
-        document.getElementById("countdownMins").innerText=00;
+        document.getElementById("countdownMins").innerText='00';
     }
     
 
@@ -373,7 +377,7 @@ document.getElementById("countdownSeconds").addEventListener("blur",(event)=>
         document.getElementById("countdownSeconds").innerText=59;
     }else if(parseInt(str)<0)
     {
-        document.getElementById("countdownSeconds").innerText=00;
+        document.getElementById("countdownSeconds").innerText='00';
     }
     
 

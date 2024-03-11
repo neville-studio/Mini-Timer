@@ -44,6 +44,9 @@ function pluszero(str)
 
 //页面加载
 function load(){
+    document.getElementById('countdown').innerText = chrome.i18n.getMessage("timer");
+    document.getElementById('alarm').innerText = chrome.i18n.getMessage("alarm");
+    document.getElementById('timer').innerText = chrome.i18n.getMessage("stopWatch");
     chrome.runtime.sendMessage({"type":"wakeup"},function (response){
             if(response.wakeup=="wakeup")wakeup=1;
             
@@ -255,7 +258,7 @@ document.getElementById("alarmMins").addEventListener("blur",(event)=>
         document.getElementById("alarmMins").innerText=59;
     }else if(parseInt(str)<0)
     {
-        document.getElementById("alarmMins").innerText=00;
+        document.getElementById("alarmMins").innerText="00";
     }
     
 
@@ -277,7 +280,7 @@ document.getElementById("alarmHours").addEventListener("blur",(event)=>
         document.getElementById("alarmHours").innerText=23;
     }else if(parseInt(str)<0)
     {
-        document.getElementById("alarmHours").innerText=00;
+        document.getElementById("alarmHours").innerText="00";
     }
     
 
